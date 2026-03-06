@@ -1,0 +1,15 @@
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/bin/Debug/net9.0/MyStream.Infrastructure.deps.json
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/bin/Debug/net9.0/MyStream.Infrastructure.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/bin/Debug/net9.0/MyStream.Infrastructure.pdb
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/bin/Debug/net9.0/MyStream.Core.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/bin/Debug/net9.0/MyStream.Core.pdb
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.csproj.AssemblyReference.cache
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.AssemblyInfoInputs.cache
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.AssemblyInfo.cs
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.0D75B22D.Up2Date
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/refint/MyStream.Infrastructure.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.pdb
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/ref/MyStream.Infrastructure.dll

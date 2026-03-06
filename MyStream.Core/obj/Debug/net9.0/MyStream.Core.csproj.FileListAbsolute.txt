@@ -1,0 +1,11 @@
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/bin/Debug/net9.0/MyStream.Core.deps.json
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/bin/Debug/net9.0/MyStream.Core.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/bin/Debug/net9.0/MyStream.Core.pdb
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.AssemblyInfoInputs.cache
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.AssemblyInfo.cs
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.csproj.CoreCompileInputs.cache
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/refint/MyStream.Core.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.pdb
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/ref/MyStream.Core.dll
