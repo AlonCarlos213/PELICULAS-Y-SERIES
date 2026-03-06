@@ -155,3 +155,6 @@
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Api/obj/Debug/net9.0/MyStream.Api.pdb
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Api/obj/Debug/net9.0/MyStream.Api.genruntimeconfig.cache
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Api/obj/Debug/net9.0/ref/MyStream.Api.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Api/bin/Debug/net9.0/Npgsql.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Api/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Api/obj/Debug/net9.0/MyStream.Api.sourcelink.json

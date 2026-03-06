@@ -9,3 +9,4 @@
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/refint/MyStream.Core.dll
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.pdb
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/ref/MyStream.Core.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Core/obj/Debug/net9.0/MyStream.Core.sourcelink.json

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bUezcy/4IDk=",
+  "dgSpecHash": "Ct1FkGSW8mw=",
   "success": true,
   "projectFilePath": "/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Api/MyStream.Api.csproj",
   "expectedPackageFiles": [
@@ -35,6 +35,8 @@
     "/Users/carlosalonsomamaniccollque/.nuget/packages/microsoft.extensions.primitives/9.0.2/microsoft.extensions.primitives.9.0.2.nupkg.sha512",
     "/Users/carlosalonsomamaniccollque/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512",
     "/Users/carlosalonsomamaniccollque/.nuget/packages/mono.texttemplating/3.0.0/mono.texttemplating.3.0.0.nupkg.sha512",
+    "/Users/carlosalonsomamaniccollque/.nuget/packages/npgsql/9.0.2/npgsql.9.0.2.nupkg.sha512",
+    "/Users/carlosalonsomamaniccollque/.nuget/packages/npgsql.entityframeworkcore.postgresql/9.0.2/npgsql.entityframeworkcore.postgresql.9.0.2.nupkg.sha512",
     "/Users/carlosalonsomamaniccollque/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.10/sqlitepclraw.bundle_e_sqlite3.2.1.10.nupkg.sha512",
     "/Users/carlosalonsomamaniccollque/.nuget/packages/sqlitepclraw.core/2.1.10/sqlitepclraw.core.2.1.10.nupkg.sha512",
     "/Users/carlosalonsomamaniccollque/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.10/sqlitepclraw.lib.e_sqlite3.2.1.10.nupkg.sha512",

@@ -13,3 +13,4 @@
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/refint/MyStream.Infrastructure.dll
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.pdb
 /Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/ref/MyStream.Infrastructure.dll
+/Users/carlosalonsomamaniccollque/Desktop/ProyectosRide/MyStreamProject/MyStream.Infrastructure/obj/Debug/net9.0/MyStream.Infrastructure.sourcelink.json

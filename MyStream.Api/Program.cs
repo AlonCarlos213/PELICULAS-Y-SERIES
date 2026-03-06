@@ -1,8 +1,28 @@
+using Microsoft.EntityFrameworkCore;
+using MyStream.Infrastructure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Configure DbContext based on environment
+if (builder.Environment.IsProduction())
+{
+    // Use PostgreSQL for production (Railway)
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<MyStreamDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    // Use SQLite for development
+    builder.Services.AddDbContext<MyStreamDbContext>(options =>
+        options.UseSqlite("Data Source=mystream.db"));
+}
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 
@@ -10,6 +30,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    
+    // Auto-create database and apply migrations in development
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
+    context.Database.Migrate();
+}
+else
+{
+    // Apply migrations in production as well
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
+    context.Database.Migrate();
 }
 
 app.UseHttpsRedirection();
