@@ -11,8 +11,8 @@ using MyStream.Infrastructure.Data;
 namespace MyStream.Infrastructure.Migrations
 {
     [DbContext(typeof(MyStreamDbContext))]
-    [Migration("20260307224642_FixIsActiveColumnType")]
-    partial class FixIsActiveColumnType
+    [Migration("20260307231322_FinalCorrectSchema")]
+    partial class FinalCorrectSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace MyStream.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<int>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ProfilePicture")

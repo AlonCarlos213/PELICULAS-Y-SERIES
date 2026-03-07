@@ -107,41 +107,19 @@ else
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
         
+        // Drop old table if exists
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS \"Users\" CASCADE;");
+            Console.WriteLine("Old Users table dropped");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error dropping table: {ex.Message}");
+        }
+        
         await context.Database.MigrateAsync();
-        
-        // Fix Id column to be SERIAL if not already
-        try
-        {
-            await context.Database.ExecuteSqlRawAsync(@"
-                CREATE SEQUENCE IF NOT EXISTS ""Users""_Id_seq
-                    AS integer
-                    START WITH 1
-                    INCREMENT BY 1
-                    NO MINVALUE
-                    NO MAXVALUE
-                    CACHE 1;
-                    
-                ALTER SEQUENCE ""Users""_Id_seq OWNED BY ""Users"".""Id"";
-                ALTER TABLE ""Users"" ALTER COLUMN ""Id"" SET DEFAULT nextval('""Users""_Id_seq'::regclass);
-                ALTER TABLE ""Users"" ALTER COLUMN ""Id"" SET NOT NULL;
-            ");
-            Console.WriteLine("Id column fixed to SERIAL");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error fixing Id column: {ex.Message}");
-        }
-        
-        // Clean table for testing
-        try
-        {
-            await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE \"Users\" RESTART IDENTITY CASCADE;");
-            Console.WriteLine("Users table cleaned for testing");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error cleaning Users table: {ex.Message}");
-        }
+        Console.WriteLine("Migrations applied");
     }
     catch (Exception ex)
     {
