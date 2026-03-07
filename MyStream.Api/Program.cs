@@ -18,8 +18,16 @@ if (builder.Environment.IsProduction())
     }
     
     Console.WriteLine($"Using PostgreSQL connection: {connectionString}");
+    
+    // Fix Railway connection string format
+    var fixedConnectionString = connectionString.Replace("postgresql://", "Host=");
+    var uri = new Uri(connectionString);
+    var dbConnectionString = $"Host={uri.Host}:{uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={uri.UserInfo.Split(':')[0]};Password={uri.UserInfo.Split(':')[1]}";
+    
+    Console.WriteLine($"Fixed connection string: {dbConnectionString}");
+    
     builder.Services.AddDbContext<MyStreamDbContext>(options =>
-        options.UseNpgsql(connectionString));
+        options.UseNpgsql(dbConnectionString));
 }
 else
 {
