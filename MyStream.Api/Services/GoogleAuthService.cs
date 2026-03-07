@@ -36,12 +36,10 @@ public class GoogleAuthService : IGoogleAuthService
         {
             Console.WriteLine($"Attempting to validate Google token...");
             
-            // Verify Google token with flexible validation for testing
+            // Verify Google token with basic validation
             var settings = new GoogleJsonWebSignature.ValidationSettings
             {
-                Audience = new[] { _configuration["Google:ClientId"] },
-                // Allow some clock skew for testing
-                ClockSkew = TimeSpan.FromMinutes(10)
+                Audience = new[] { _configuration["Google:ClientId"] }
             };
 
             Console.WriteLine($"Validating with ClientId: {_configuration["Google:ClientId"]}");
@@ -56,8 +54,8 @@ public class GoogleAuthService : IGoogleAuthService
 
             Console.WriteLine($"Token validated successfully for user: {payload.Email}");
             Console.WriteLine($"Token subject: {payload.Subject}");
-            Console.WriteLine($"Token issued at: {payload.IssuedAtTime}");
-            Console.WriteLine($"Token expires at: {payload.ExpirationTime}");
+            Console.WriteLine($"Token issued at: {payload.IssuedAt}");
+            Console.WriteLine($"Token expires at: {payload.Expiration}");
 
             // Find or create user
             var user = await _context.Users
@@ -105,13 +103,6 @@ public class GoogleAuthService : IGoogleAuthService
             Console.WriteLine($"Generated JWT token for user: {user.Email}");
             
             return jwtToken;
-        }
-        catch (Google.Apis.Auth.GoogleJsonWebSignature.ValidationException ex)
-        {
-            Console.WriteLine($"Google token validation error: {ex.Message}");
-            Console.WriteLine($"Validation error details: {ex.StackTrace}");
-            Console.WriteLine($"Token being validated: {idToken.Substring(0, Math.Min(50, idToken.Length))}...");
-            throw new InvalidOperationException($"Google token validation failed: {ex.Message}", ex);
         }
         catch (Exception ex)
         {
