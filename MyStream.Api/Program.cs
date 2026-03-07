@@ -104,17 +104,10 @@ else
     // Apply migrations in production as well
     try
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
         
-        // Configure warnings to suppress pending model changes warning
-        var options = new DbContextOptionsBuilder<MyStreamDbContext>()
-            .UseNpgsql(connectionString)
-            .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.DetectedModelChangesWarning))
-            .Options;
-            
-        await context.Database.MigrateAsync(options);
+        await context.Database.MigrateAsync();
         
         // Clean table for testing
         try
