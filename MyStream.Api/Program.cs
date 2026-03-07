@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using MyStream.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,10 @@ if (builder.Environment.IsProduction())
     Console.WriteLine($"Fixed connection string: {dbConnectionString}");
     
     builder.Services.AddDbContext<MyStreamDbContext>(options =>
-        options.UseNpgsql(dbConnectionString));
+{
+    options.UseNpgsql(dbConnectionString);
+    options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+});
 }
 else
 {
@@ -58,6 +62,10 @@ else
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
+        
+        // Configure warnings to suppress pending model changes warning
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(2));
+        
         context.Database.Migrate();
     }
     catch (Exception ex)
