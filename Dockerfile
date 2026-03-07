@@ -12,7 +12,8 @@ RUN dotnet restore MyStreamProject.sln
 # Copy everything else and build
 COPY . ./
 WORKDIR /src
-RUN dotnet publish MyStreamProject.sln -c Release -o /app/publish --no-restore
+RUN dotnet restore MyStreamProject.sln
+RUN dotnet publish MyStream.Api/MyStream.Api.csproj -c Release -o /app/publish
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
