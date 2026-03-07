@@ -9,5 +9,5 @@ public class User
     public string? ProfilePicture { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
-    public bool IsActive { get; set; } = true;
+    public int IsActive { get; set; } = 1; // Use integer instead of boolean
 }
