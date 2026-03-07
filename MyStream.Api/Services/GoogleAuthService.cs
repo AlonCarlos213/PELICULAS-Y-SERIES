@@ -54,8 +54,6 @@ public class GoogleAuthService : IGoogleAuthService
 
             Console.WriteLine($"Token validated successfully for user: {payload.Email}");
             Console.WriteLine($"Token subject: {payload.Subject}");
-            Console.WriteLine($"Token issued at: {payload.IssuedAt}");
-            Console.WriteLine($"Token expires at: {payload.Expiration}");
 
             // Find or create user
             var user = await _context.Users
