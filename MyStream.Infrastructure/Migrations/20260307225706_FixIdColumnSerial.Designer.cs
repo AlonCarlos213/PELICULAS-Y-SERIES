@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyStream.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using MyStream.Infrastructure.Data;
 namespace MyStream.Infrastructure.Migrations
 {
     [DbContext(typeof(MyStreamDbContext))]
-    partial class MyStreamDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260307225706_FixIdColumnSerial")]
+    partial class FixIdColumnSerial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
