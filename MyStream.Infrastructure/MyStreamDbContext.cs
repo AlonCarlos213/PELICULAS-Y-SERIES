@@ -29,9 +29,9 @@ public class MyStreamDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Email).IsRequired().HasMaxLength(255);
-            entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.DisplayName).IsRequired().HasMaxLength(255);
             entity.HasIndex(e => e.Email).IsUnique();
-            entity.HasIndex(e => e.Username).IsUnique();
+            entity.HasIndex(e => e.GoogleId).IsUnique();
         });
     }
 }

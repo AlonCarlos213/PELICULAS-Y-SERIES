@@ -65,10 +65,9 @@ public class GoogleAuthService : IGoogleAuthService
                 user = new User
                 {
                     Email = payload.Email,
-                    Username = payload.Email.Split('@')[0],
-                    FirstName = payload.GivenName,
-                    LastName = payload.FamilyName,
                     GoogleId = payload.Subject,
+                    DisplayName = $"{payload.GivenName} {payload.FamilyName}".Trim(),
+                    ProfilePicture = payload.Picture,
                     IsActive = true
                 };
 
@@ -88,30 +87,6 @@ public class GoogleAuthService : IGoogleAuthService
                         Console.WriteLine($"Inner database exception: {dbEx.InnerException.Message}");
                     }
                     throw new InvalidOperationException($"Failed to create user: {dbEx.Message}", dbEx);
-                }
-            }
-            else if (user.GoogleId == null)
-            {
-                // Link Google account to existing user
-                user.GoogleId = payload.Subject;
-                user.FirstName = user.FirstName ?? payload.GivenName;
-                user.LastName = user.LastName ?? payload.FamilyName;
-                user.UpdatedAt = DateTime.UtcNow;
-                
-                try
-                {
-                    await _context.SaveChangesAsync();
-                    _logger.LogInformation($"Linked Google account to existing user: {user.Email}");
-                    Console.WriteLine($"Linked Google account to existing user: {user.Email}");
-                }
-                catch (Exception dbEx)
-                {
-                    Console.WriteLine($"Database error updating user: {dbEx.Message}");
-                    if (dbEx.InnerException != null)
-                    {
-                        Console.WriteLine($"Inner database exception: {dbEx.InnerException.Message}");
-                    }
-                    throw new InvalidOperationException($"Failed to update user: {dbEx.Message}", dbEx);
                 }
             }
             else
@@ -160,10 +135,9 @@ public class GoogleAuthService : IGoogleAuthService
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName ?? ""),
-            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName ?? ""),
+            new Claim("display_name", user.DisplayName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim("google_id", user.GoogleId ?? "")
+            new Claim("google_id", user.GoogleId)
         };
 
         var token = new JwtSecurityToken(
