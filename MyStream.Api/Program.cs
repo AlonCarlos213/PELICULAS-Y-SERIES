@@ -11,6 +11,13 @@ if (builder.Environment.IsProduction())
 {
     // Use PostgreSQL for production (Railway)
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException("Connection string 'DefaultConnection' not found in production environment");
+    }
+    
+    Console.WriteLine($"Using PostgreSQL connection: {connectionString}");
     builder.Services.AddDbContext<MyStreamDbContext>(options =>
         options.UseNpgsql(connectionString));
 }
@@ -39,9 +46,17 @@ if (app.Environment.IsDevelopment())
 else
 {
     // Apply migrations in production as well
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
-    context.Database.Migrate();
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Migration failed: {ex.Message}");
+        throw;
+    }
 }
 
 app.UseHttpsRedirection();
