@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 // Configure DbContext based on environment
 if (builder.Environment.IsProduction())
@@ -76,6 +77,14 @@ else
 }
 
 app.UseHttpsRedirection();
+
+// Enable Swagger in all environments
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyStream.Api v1");
+    options.RoutePrefix = string.Empty;
+});
 
 var summaries = new[]
 {
