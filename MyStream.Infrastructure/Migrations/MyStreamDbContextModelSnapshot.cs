@@ -34,6 +34,9 @@ namespace MyStream.Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GoogleId")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
