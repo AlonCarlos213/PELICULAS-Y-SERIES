@@ -73,10 +73,22 @@ public class GoogleAuthService : IGoogleAuthService
                 };
 
                 _context.Users.Add(user);
-                await _context.SaveChangesAsync();
                 
-                _logger.LogInformation($"Created new user: {user.Email}");
-                Console.WriteLine($"Created new user in database: {user.Email}");
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation($"Created new user: {user.Email}");
+                    Console.WriteLine($"Created new user in database: {user.Email}");
+                }
+                catch (Exception dbEx)
+                {
+                    Console.WriteLine($"Database error creating user: {dbEx.Message}");
+                    if (dbEx.InnerException != null)
+                    {
+                        Console.WriteLine($"Inner database exception: {dbEx.InnerException.Message}");
+                    }
+                    throw new InvalidOperationException($"Failed to create user: {dbEx.Message}", dbEx);
+                }
             }
             else if (user.GoogleId == null)
             {
@@ -86,10 +98,21 @@ public class GoogleAuthService : IGoogleAuthService
                 user.LastName = user.LastName ?? payload.FamilyName;
                 user.UpdatedAt = DateTime.UtcNow;
                 
-                await _context.SaveChangesAsync();
-                
-                _logger.LogInformation($"Linked Google account to existing user: {user.Email}");
-                Console.WriteLine($"Linked Google account to existing user: {user.Email}");
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation($"Linked Google account to existing user: {user.Email}");
+                    Console.WriteLine($"Linked Google account to existing user: {user.Email}");
+                }
+                catch (Exception dbEx)
+                {
+                    Console.WriteLine($"Database error updating user: {dbEx.Message}");
+                    if (dbEx.InnerException != null)
+                    {
+                        Console.WriteLine($"Inner database exception: {dbEx.InnerException.Message}");
+                    }
+                    throw new InvalidOperationException($"Failed to update user: {dbEx.Message}", dbEx);
+                }
             }
             else
             {
