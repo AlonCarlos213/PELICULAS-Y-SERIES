@@ -34,16 +34,30 @@ public class GoogleAuthService : IGoogleAuthService
     {
         try
         {
-            // Verify Google token
-            var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, new GoogleJsonWebSignature.ValidationSettings
+            Console.WriteLine($"Attempting to validate Google token...");
+            
+            // Verify Google token with flexible validation for testing
+            var settings = new GoogleJsonWebSignature.ValidationSettings
             {
-                Audience = new[] { _configuration["Google:ClientId"] }
-            });
+                Audience = new[] { _configuration["Google:ClientId"] },
+                // Allow some clock skew for testing
+                ClockSkew = TimeSpan.FromMinutes(10)
+            };
+
+            Console.WriteLine($"Validating with ClientId: {_configuration["Google:ClientId"]}");
+            
+            var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
 
             if (payload == null)
             {
-                throw new InvalidOperationException("Invalid Google token");
+                Console.WriteLine("Google token validation returned null payload");
+                throw new InvalidOperationException("Invalid Google token - null payload");
             }
+
+            Console.WriteLine($"Token validated successfully for user: {payload.Email}");
+            Console.WriteLine($"Token subject: {payload.Subject}");
+            Console.WriteLine($"Token issued at: {payload.IssuedAtTime}");
+            Console.WriteLine($"Token expires at: {payload.ExpirationTime}");
 
             // Find or create user
             var user = await _context.Users
@@ -66,6 +80,7 @@ public class GoogleAuthService : IGoogleAuthService
                 await _context.SaveChangesAsync();
                 
                 _logger.LogInformation($"Created new user: {user.Email}");
+                Console.WriteLine($"Created new user in database: {user.Email}");
             }
             else if (user.GoogleId == null)
             {
@@ -78,13 +93,31 @@ public class GoogleAuthService : IGoogleAuthService
                 await _context.SaveChangesAsync();
                 
                 _logger.LogInformation($"Linked Google account to existing user: {user.Email}");
+                Console.WriteLine($"Linked Google account to existing user: {user.Email}");
+            }
+            else
+            {
+                Console.WriteLine($"Existing user found: {user.Email}");
             }
 
             // Generate JWT token
-            return GenerateJwtToken(user);
+            var jwtToken = GenerateJwtToken(user);
+            Console.WriteLine($"Generated JWT token for user: {user.Email}");
+            
+            return jwtToken;
+        }
+        catch (Google.Apis.Auth.GoogleJsonWebSignature.ValidationException ex)
+        {
+            Console.WriteLine($"Google token validation error: {ex.Message}");
+            Console.WriteLine($"Validation error details: {ex.StackTrace}");
+            Console.WriteLine($"Token being validated: {idToken.Substring(0, Math.Min(50, idToken.Length))}...");
+            throw new InvalidOperationException($"Google token validation failed: {ex.Message}", ex);
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"General error during Google authentication: {ex.Message}");
+            Console.WriteLine($"Error type: {ex.GetType().Name}");
+            Console.WriteLine($"Error stack trace: {ex.StackTrace}");
             _logger.LogError(ex, "Error during Google authentication");
             throw;
         }

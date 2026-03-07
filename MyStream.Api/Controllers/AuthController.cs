@@ -23,19 +23,28 @@ public class AuthController : ControllerBase
     {
         try
         {
+            Console.WriteLine($"Received Google login request");
+            
             if (string.IsNullOrEmpty(request.IdToken))
             {
+                Console.WriteLine("IdToken is null or empty");
                 return BadRequest("IdToken is required");
             }
 
+            Console.WriteLine($"IdToken length: {request.IdToken.Length}");
+            Console.WriteLine($"IdToken preview: {request.IdToken.Substring(0, Math.Min(100, request.IdToken.Length))}...");
+
             var jwtToken = await _googleAuthService.AuthenticateWithGoogleAsync(request.IdToken);
 
+            Console.WriteLine("Google authentication successful");
             return Ok(new { Token = jwtToken });
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"Google login failed: {ex.Message}");
+            Console.WriteLine($"Exception type: {ex.GetType().Name}");
             _logger.LogError(ex, "Google login failed");
-            return Unauthorized("Invalid Google token");
+            return Unauthorized($"Invalid Google token: {ex.Message}");
         }
     }
 }
