@@ -81,23 +81,51 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     
-    // Auto-create database and apply migrations in development
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
-    context.Database.Migrate();
+    // Auto-create database and apply migrations// Apply any pending migrations
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
+        await context.Database.MigrateAsync();
+        
+        // Clean table for testing
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE \"Users\" RESTART IDENTITY CASCADE;");
+            Console.WriteLine("Users table cleaned for testing");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cleaning Users table: {ex.Message}");
+        }
+    }
 }
 else
 {
     // Apply migrations in production as well
     try
     {
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
         
         // Configure warnings to suppress pending model changes warning
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(2));
+        var options = new DbContextOptionsBuilder<MyStreamDbContext>()
+            .UseNpgsql(connectionString)
+            .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.DetectedModelChangesWarning))
+            .Options;
+            
+        await context.Database.MigrateAsync(options);
         
-        context.Database.Migrate();
+        // Clean table for testing
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE \"Users\" RESTART IDENTITY CASCADE;");
+            Console.WriteLine("Users table cleaned for testing");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cleaning Users table: {ex.Message}");
+        }
     }
     catch (Exception ex)
     {

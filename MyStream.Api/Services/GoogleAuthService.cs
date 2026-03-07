@@ -54,6 +54,7 @@ public class GoogleAuthService : IGoogleAuthService
 
             Console.WriteLine($"Token validated successfully for user: {payload.Email}");
             Console.WriteLine($"Token subject: {payload.Subject}");
+            Console.WriteLine($"Extracted email from Google token: {payload.Email}");
 
             // Find or create user
             var user = await _context.Users
@@ -85,8 +86,9 @@ public class GoogleAuthService : IGoogleAuthService
                     if (dbEx.InnerException != null)
                     {
                         Console.WriteLine($"Inner database exception: {dbEx.InnerException.Message}");
+                        Console.WriteLine($"Inner exception type: {dbEx.InnerException.GetType().Name}");
                     }
-                    throw new InvalidOperationException($"Failed to create user: {dbEx.Message}", dbEx);
+                    throw new InvalidOperationException($"Failed to create user: {dbEx.InnerException?.Message ?? dbEx.Message}", dbEx);
                 }
             }
             else
