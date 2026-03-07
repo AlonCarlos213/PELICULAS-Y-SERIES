@@ -130,6 +130,18 @@ public class GoogleAuthService : IGoogleAuthService
             Console.WriteLine($"General error during Google authentication: {ex.Message}");
             Console.WriteLine($"Error type: {ex.GetType().Name}");
             Console.WriteLine($"Error stack trace: {ex.StackTrace}");
+            
+            // Check for DbUpdateException specifically
+            if (ex is Microsoft.EntityFrameworkCore.DbUpdateException dbEx)
+            {
+                Console.WriteLine($"Database update exception: {dbEx.Message}");
+                if (dbEx.InnerException != null)
+                {
+                    Console.WriteLine($"Inner database exception: {dbEx.InnerException.Message}");
+                    Console.WriteLine($"Inner exception type: {dbEx.InnerException.GetType().Name}");
+                }
+            }
+            
             _logger.LogError(ex, "Error during Google authentication");
             throw;
         }
