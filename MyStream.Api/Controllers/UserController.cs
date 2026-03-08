@@ -52,20 +52,32 @@ public class UserController : ControllerBase
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         
-        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out var id))
+        if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var id))
         {
             return Unauthorized("Invalid user ID in token");
         }
 
-        var user = await _context.Users.FindAsync(id);
-        
+        if (string.IsNullOrEmpty(updateDto.DisplayName))
+        {
+            return BadRequest("DisplayName is required");
+        }
+
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Id == id);
+
         if (user == null)
         {
             return NotFound("User not found");
         }
 
-        // Update only DisplayName (Email and ProfilePicture are not editable)
-        user.DisplayName = updateDto.DisplayName;
+        // Validar que solo se pueda editar el DisplayName
+        // Email y ProfilePicture son campos de solo lectura (de Google)
+        if (!string.IsNullOrEmpty(updateDto.DisplayName))
+        {
+            // Solo se permite modificar el DisplayName
+            user.DisplayName = updateDto.DisplayName;
+        }
+
         user.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();

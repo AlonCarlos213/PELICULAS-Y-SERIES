@@ -8,14 +8,10 @@ namespace MyStream.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IGoogleAuthService _googleAuthService;
-    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(
-        IGoogleAuthService googleAuthService,
-        ILogger<AuthController> logger)
+    public AuthController(IGoogleAuthService googleAuthService)
     {
         _googleAuthService = googleAuthService;
-        _logger = logger;
     }
 
     [HttpPost("login/google")]
@@ -23,28 +19,24 @@ public class AuthController : ControllerBase
     {
         try
         {
-            Console.WriteLine($"Received Google login request");
-            
             if (string.IsNullOrEmpty(request.IdToken))
             {
-                Console.WriteLine("IdToken is null or empty");
                 return BadRequest("IdToken is required");
             }
 
             Console.WriteLine($"IdToken length: {request.IdToken.Length}");
             Console.WriteLine($"IdToken preview: {request.IdToken.Substring(0, Math.Min(100, request.IdToken.Length))}...");
-
-            var jwtToken = await _googleAuthService.AuthenticateWithGoogleAsync(request.IdToken);
-
+            
+            var jwtToken = await _googleAuthService.AuthenticateGoogleToken(request.IdToken);
+            
             Console.WriteLine("Google authentication successful");
+            
             return Ok(new { Token = jwtToken });
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Google login failed: {ex.Message}");
-            Console.WriteLine($"Exception type: {ex.GetType().Name}");
-            _logger.LogError(ex, "Google login failed");
-            return Unauthorized($"Invalid Google token: {ex.Message}");
+            Console.WriteLine($"Google authentication error: {ex.Message}");
+            return StatusCode(500, "Internal server error during authentication");
         }
     }
 }
