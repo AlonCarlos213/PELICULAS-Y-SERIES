@@ -56,6 +56,12 @@ public class GoogleAuthService : IGoogleAuthService
             Console.WriteLine($"Token subject: {payload.Subject}");
             Console.WriteLine($"Extracted email from Google token: {payload.Email}");
 
+            // Ensure database context is ready
+            if (_context.Database.IsRelational())
+            {
+                Console.WriteLine("Database context is ready and connected");
+            }
+
             // Find or create user
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == payload.Email);

@@ -107,17 +107,6 @@ else
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
         
-        // Drop old table if exists
-        try
-        {
-            await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS \"Users\" CASCADE;");
-            Console.WriteLine("Old Users table dropped");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error dropping table: {ex.Message}");
-        }
-        
         await context.Database.MigrateAsync();
         Console.WriteLine("Migrations applied");
     }
