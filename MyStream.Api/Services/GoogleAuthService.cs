@@ -75,7 +75,7 @@ public class GoogleAuthService : IGoogleAuthService
                     GoogleId = payload.Subject,
                     DisplayName = $"{payload.GivenName} {payload.FamilyName}".Trim(),
                     ProfilePicture = payload.Picture,
-                    IsActive = 1 // Use integer 1 instead of boolean true
+                    Role = UserRole.User
                 };
 
                 _context.Users.Add(user);

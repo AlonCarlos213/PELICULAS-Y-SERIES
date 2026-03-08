@@ -142,8 +142,23 @@ else
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<MyStreamDbContext>();
         
+        // Force reset: Drop migration history and Users table
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS \"__EFMigrationsHistory\" CASCADE;");
+            Console.WriteLine("Migration history table dropped");
+            
+            await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS \"Users\" CASCADE;");
+            Console.WriteLine("Users table dropped");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error dropping tables: {ex.Message}");
+        }
+        
+        // Apply migrations - this will recreate everything with correct schema
         await context.Database.MigrateAsync();
-        Console.WriteLine("Migrations applied - Users table created with correct schema");
+        Console.WriteLine("Migrations applied - Master schema created");
     }
     catch (Exception ex)
     {

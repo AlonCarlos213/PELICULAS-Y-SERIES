@@ -24,7 +24,7 @@ public class UserController : ControllerBase
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         
-        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out var id))
+        if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var id))
         {
             return Unauthorized("Invalid user ID in token");
         }
