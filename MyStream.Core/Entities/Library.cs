@@ -13,4 +13,8 @@ public class Library
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
+    public Guid CreatedBy { get; set; }
+    
+    [ForeignKey("CreatedBy")]
+    public User Creator { get; set; } = null!;
 }

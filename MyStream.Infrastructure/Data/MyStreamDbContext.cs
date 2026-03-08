@@ -83,6 +83,8 @@ public class MyStreamDbContext : DbContext
             entity.Property(e => e.CreatedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.UpdatedAt).HasColumnType("timestamp with time zone");
             entity.Property(e => e.Name).HasMaxLength(255).IsRequired();
+            entity.Property(e => e.LocalPath).HasMaxLength(1000);
+            entity.HasOne(e => e.Creator).WithMany().HasForeignKey(e => e.CreatedBy);
         });
 
         modelBuilder.Entity<MediaItem>(entity =>
