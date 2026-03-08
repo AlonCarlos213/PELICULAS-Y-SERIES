@@ -95,7 +95,6 @@ public class MyStreamDbContext : DbContext
             entity.Property(e => e.BackdropUrl).HasMaxLength(1000);
             entity.Property(e => e.Platform).HasMaxLength(100);
             entity.HasOne(e => e.Library).WithMany().HasForeignKey(e => e.LibraryId);
-            entity.HasMany(e => e.Genres).WithMany();
         });
 
         modelBuilder.Entity<Genre>(entity =>
@@ -128,7 +127,6 @@ public class MyStreamDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(255).IsRequired();
             entity.Property(e => e.StreamUrl).HasMaxLength(1000).IsRequired();
             entity.Property(e => e.LogoUrl).HasMaxLength(1000);
-            entity.HasMany(e => e.Categories).WithMany();
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -136,12 +134,6 @@ public class MyStreamDbContext : DbContext
             entity.Property(e => e.CreatedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.UpdatedAt).HasColumnType("timestamp with time zone");
             entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
-        });
-
-        modelBuilder.Entity<ChannelCategory>(entity =>
-        {
-            entity.HasOne(e => e.LiveChannel).WithMany();
-            entity.HasOne(e => e.Category).WithMany();
         });
 
         modelBuilder.Entity<WatchHistory>(entity =>
@@ -152,9 +144,25 @@ public class MyStreamDbContext : DbContext
             entity.HasOne(e => e.MediaItem).WithMany().HasForeignKey(e => e.MediaItemId);
         });
 
-        modelBuilder.Entity<MediaGenre>()
-            .HasOne(mg => mg.MediaItem)
-            .WithMany()
-            .HasForeignKey(mg => mg.MediaItemId);
+        // Configurar relaciones muchos-a-muchos - CORREGIDO
+        modelBuilder.Entity<MediaGenre>(entity => {
+            entity.HasKey(mg => new { mg.MediaItemId, mg.GenreId });
+            entity.HasOne(mg => mg.MediaItem)
+                  .WithMany(m => m.MediaGenres)
+                  .HasForeignKey(mg => mg.MediaItemId);
+            entity.HasOne(mg => mg.Genre)
+                  .WithMany(g => g.MediaGenres)
+                  .HasForeignKey(mg => mg.GenreId);
+        });
+
+        modelBuilder.Entity<ChannelCategory>(entity => {
+            entity.HasKey(cc => new { cc.LiveChannelId, cc.CategoryId });
+            entity.HasOne(cc => cc.LiveChannel)
+                  .WithMany(lc => lc.ChannelCategories)
+                  .HasForeignKey(cc => cc.LiveChannelId);
+            entity.HasOne(cc => cc.Category)
+                  .WithMany(c => c.ChannelCategories)
+                  .HasForeignKey(cc => cc.CategoryId);
+        });
     }
 }

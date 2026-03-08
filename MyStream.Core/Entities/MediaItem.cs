@@ -21,7 +21,7 @@ public class MediaItem
     [ForeignKey("LibraryId")]
     public Library Library { get; set; } = null!;
     
-    public ICollection<MediaGenre> Genres { get; set; } = new List<MediaGenre>();
+    public ICollection<MediaGenre> MediaGenres { get; set; } = new List<MediaGenre>();
     public ICollection<Season> Seasons { get; set; } = new List<Season>();
     public ICollection<WatchHistory> WatchHistories { get; set; } = new List<WatchHistory>();
 }

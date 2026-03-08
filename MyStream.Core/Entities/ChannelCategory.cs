@@ -5,12 +5,8 @@ namespace MyStream.Core.Entities;
 
 public class ChannelCategory
 {
-    public required Guid LiveChannelId { get; set; }
-    public required int CategoryId { get; set; }
-    
-    [ForeignKey("LiveChannelId")]
-    public LiveChannel LiveChannel { get; set; } = null!;
-    
-    [ForeignKey("CategoryId")]
-    public Category Category { get; set; } = null!;
+    public Guid LiveChannelId { get; set; }
+    public int CategoryId { get; set; }
+    public virtual LiveChannel LiveChannel { get; set; } = null!;
+    public virtual Category Category { get; set; } = null!;
 }

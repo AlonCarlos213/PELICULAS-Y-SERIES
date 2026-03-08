@@ -15,5 +15,5 @@ public class LiveChannel
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     
-    public ICollection<ChannelCategory> Categories { get; set; } = new List<ChannelCategory>();
+    public ICollection<ChannelCategory> ChannelCategories { get; set; } = new List<ChannelCategory>();
 }

@@ -12,5 +12,5 @@ public class Genre
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     
-    public ICollection<MediaGenre> MediaItems { get; set; } = new List<MediaGenre>();
+    public ICollection<MediaGenre> MediaGenres { get; set; } = new List<MediaGenre>();
 }

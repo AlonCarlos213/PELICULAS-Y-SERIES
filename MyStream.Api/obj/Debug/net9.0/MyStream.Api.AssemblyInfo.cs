@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyStream.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aaa3609b8d0e7b75725dbe36badb1abb9cc7df39")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2f8867b187a1b6cc9586efb3f540da3e3b5db8d")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyStream.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyStream.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
