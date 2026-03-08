@@ -10,22 +10,8 @@ namespace MyStream.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "CreatedAt",
-                table: "Users",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "TEXT",
-                defaultValueSql: "CURRENT_TIMESTAMP");
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "UpdatedAt",
-                table: "Users",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "TEXT");
+            migrationBuilder.Sql("ALTER TABLE \"Users\" ALTER COLUMN \"CreatedAt\" TYPE timestamp with time zone USING \"CreatedAt\"::timestamp with time zone;");
+            migrationBuilder.Sql("ALTER TABLE \"Users\" ALTER COLUMN \"UpdatedAt\" TYPE timestamp with time zone USING \"UpdatedAt\"::timestamp with time zone;");
         }
 
         /// <inheritdoc />
