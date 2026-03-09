@@ -33,9 +33,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// Database context
-builder.Services.AddDbContext<MyStreamDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Database context - Railway compatible connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (!string.IsNullOrEmpty(connectionString) && connectionString.StartsWith("postgres://"))
+{
+    var databaseUri = new Uri(connectionString);
+    var userInfo = databaseUri.UserInfo.Split(':');
+    connectionString = $"Host={databaseUri.Host};Port={databaseUri.Port};Database={databaseUri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=True";
+}
+
+builder.Services.AddDbContext<MyStreamDbContext>(options => 
+    options.UseNpgsql(connectionString));
 
 // Register Google Auth Service
 builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
@@ -54,7 +62,7 @@ builder.Services.AddSwaggerGen(c =>
     // Add JWT Authentication to Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Description = "JWT Authorization header using Bearer scheme. Example: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,

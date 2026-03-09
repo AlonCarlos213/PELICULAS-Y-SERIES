@@ -110,7 +110,7 @@ public class MyStreamDbContext : DbContext
         {
             entity.Property(e => e.CreatedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.UpdatedAt).HasColumnType("timestamp with time zone");
-            entity.HasOne(e => e.MediaItem).WithMany().HasForeignKey(e => e.MediaItemId);
+            entity.HasOne(e => e.MediaItem).WithMany(e => e.Seasons).HasForeignKey(e => e.MediaItemId);
         });
 
         modelBuilder.Entity<Episode>(entity =>
@@ -119,7 +119,7 @@ public class MyStreamDbContext : DbContext
             entity.Property(e => e.UpdatedAt).HasColumnType("timestamp with time zone");
             entity.Property(e => e.Title).HasMaxLength(500);
             entity.Property(e => e.LocalPath).HasMaxLength(1000);
-            entity.HasOne(e => e.Season).WithMany().HasForeignKey(e => e.SeasonId);
+            entity.HasOne(e => e.Season).WithMany(e => e.Episodes).HasForeignKey(e => e.SeasonId);
         });
 
         modelBuilder.Entity<LiveChannel>(entity =>
